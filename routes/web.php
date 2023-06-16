@@ -37,7 +37,14 @@ Route::get('/logout',[AuthClientController::class, 'logout'])->name('client.logo
 Route::get('/choose-type',[ClientController::class, 'type'])->name('client.type');
 Route::get('/choose-menu/{id}',[ClientController::class, 'menu'])->name('client.menu');
 
-Route::post('/add-to-cart',[ClientController::class, 'addCart'])->name('client.add.cart');
+Route::middleware('auth:customer')->group(function () {
+    Route::post('/add-to-cart',[ClientController::class, 'addCart'])->name('client.add.cart');
+    Route::post('/edit-cart',[ClientController::class, 'editCart'])->name('client.edit.cart');
+    Route::post('/delete-cart',[ClientController::class, 'deleteCart'])->name('client.delete.cart');
+
+    Route::get('/cart',[ClientController::class, 'cart'])->name('client.cart');
+    Route::post('/checkout',[ClientController::class, 'checkout'])->name('client.checkout');
+});
 
 
 // Admin section

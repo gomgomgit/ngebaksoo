@@ -10,6 +10,14 @@ class OrderDetail extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'order_id',
+        'menu_id',
+        'quantity',
+        'price',
+        'subtotal',
+    ];
+
     public function menu(): BelongsTo {
         return $this->belongsTo(Menu::class);
     }

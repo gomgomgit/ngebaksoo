@@ -1,6 +1,14 @@
 @extends('layouts.client')
 
 @section('main')
+
+@php
+use App\Models\Cart;
+
+function selectedMenus() {
+    return Auth::guard('customer')->user() ? Cart::with('menu')->where('customer_id', Auth::guard('customer')->user()->id)->get()->pluck('menu.id')->toArray() : 0;
+}
+@endphp
     <div x-data="init()" class="">
         <div class="grid grid-cols-3 items-center">
             <div class="text-start">
@@ -31,12 +39,32 @@
                             </div>
                         </div>
                         <div class="mt-5">
-                            <button @click="openDetail({{$menu}})" class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 text-green-700 transition-colors duration-150 bg-white border border-transparent hover:bg-green-700 hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <p>Tambahkan</p>
-                            </button>
+                            @if (Auth::guard('customer')->user())
+                                <div>
+                                    @if (in_array($menu->id, selectedMenus()))
+                                        <div class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 transition-colors duration-150 border border-transparent bg-green-700 text-white">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <p>Ditambahkan</p>
+                                        </div>
+                                    @else
+                                        <button @click="openDetail({{$menu}})" class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 text-green-700 transition-colors duration-150 bg-white border border-transparent hover:bg-green-700 hover:text-white">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <p>Tambahkan</p>
+                                        </button>
+                                    @endif
+                                </div>
+                            @else
+                                <a href="/sign-in" class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 text-green-700 transition-colors duration-150 bg-white border border-transparent hover:bg-green-700 hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p>Tambahkan</p>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
