@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id');
             $table->foreignId('menu_id');
             $table->integer('quantity');
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

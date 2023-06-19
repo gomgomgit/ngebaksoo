@@ -26,7 +26,8 @@ class AuthClientController extends Controller
         if (Auth::guard('customer')->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
             return redirect()->intended('/');
         } else {
-            return redirect()->back()->withErrors('kombinasi username dan password salah');
+            flash()->addError('kombinasi username dan password salah');
+            return redirect()->back()->withInput();
         }
     }
 

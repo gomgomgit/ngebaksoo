@@ -34,6 +34,7 @@ class ClientController extends Controller
             'notes' => $request->notes
         ]);
 
+        flash()->addSuccess('Berhasil ditambahkan ke keranjang');
         return redirect()->back();
     }
     public function editCart(Request $request) {
@@ -42,6 +43,7 @@ class ClientController extends Controller
             'notes' => $request->notes
         ]);
 
+        flash()->addSuccess('Item telah diedit');
         return redirect()->back();
     }
     public function deleteCart(Request $request) {
@@ -52,7 +54,15 @@ class ClientController extends Controller
             $cart->delete();
         }
 
+        flash()->addSuccess('Item telah dihapus');
         return redirect()->back();
+    }
+
+    public function history() {
+        $user = Auth::guard('customer')->user()->id;
+        $orders = Order::with('orderDetails.menu')->where('customer_id', $user)->orderBy('date', 'desc')->paginate(10);
+
+        return view('client.history', compact('orders'));
     }
 
     public function cart() {
@@ -65,6 +75,7 @@ class ClientController extends Controller
         $request->validate([
             'address' => 'required'
         ]);
+
         $user = Auth::guard('customer')->user()->id;
         $carts = Cart::with('menu')->where('customer_id', $user)->get();
 
@@ -95,6 +106,12 @@ class ClientController extends Controller
             'total' => $total
         ]);
 
+        Cart::where('customer_id', $user)->delete();
+
+        return redirect()->route('client.succeess');
+    }
+
+    public function success() {
         return view('client.success');
     }
 }
