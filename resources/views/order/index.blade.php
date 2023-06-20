@@ -235,7 +235,6 @@
       openDetail($data) {
         this.dataorder = $data
         this.isDetailOpen = true
-        console.log($data)
       },
       closeDetail() {
         this.dataorder = {

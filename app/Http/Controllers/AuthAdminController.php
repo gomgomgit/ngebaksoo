@@ -24,7 +24,8 @@ class AuthAdminController extends Controller
         if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
             return redirect()->intended('/admin');
         } else {
-            return redirect()->back();
+            flash()->addError('kombinasi username dan password salah');
+            return redirect()->back()->withInput();
         }
     }
 

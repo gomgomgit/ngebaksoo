@@ -22,13 +22,18 @@
                 </span>
                 <select
                   name="type"
-                  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  required
+                  class="block w-full mt-1 text-sm text-gray-700 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                 >
                   @foreach ($types as $type)
                     <option {{request()->id == $type->id ? 'selected' : ''}} value="{{$type->id}}">{{$type->name}}</option>
                   @endforeach
                 </select>
-              </label>
+            </label>
+
+            @error('type')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
           </div>
           <div class="flex gap-6 mt-4">
             <div class="mb-2 w-60">
@@ -51,19 +56,26 @@
                 <span>Pilih gambar</span>
               </label>
 
+              <div class="mt-2">
+                    <p class="text-xs text-red-500">*max 2 mb</p>
+                </div>
+
             </div>
             <div class="w-full">
               <div>
                   <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Nama Menu</span>
-                    <input name="name" value="" class="text-gray-700 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nama Menu">
+                    <input name="name" required value="" class="text-gray-700 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nama Menu">
                   </label>
+                  @error('name')
+                  <div class="text-red-500">{{ $message }}</div>
+                  @enderror
               </div>
               <div class="mt-4">
                 <label class="block text-sm">
                   <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
                   <textarea
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                    class="block w-full mt-1 text-sm text-gray-700 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                     rows="3"
                     placeholder="Deskripsi untuk menu tersebut"
                     name="description"
@@ -79,6 +91,7 @@
                     <input
                       class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                       placeholder="**000"
+                      required
                       name="price"
                     />
                     <div
@@ -88,6 +101,9 @@
                     </div>
                   </div>
                 </label>
+                @error('price')
+                  <div class="text-red-500">{{ $message }}</div>
+                @enderror
               </div>
 
               <div class="mt-4 text-sm">
@@ -154,14 +170,19 @@
       },
 
       fileToDataUrl(event, callback) {
-        if (! event.target.files.length) return
+          if (! event.target.files.length) return
 
-        let file = event.target.files[0],
+          let file = event.target.files[0],
             reader = new FileReader()
 
-        reader.readAsDataURL(file)
-        reader.onload = e => callback(e.target.result)
-      },
+            if (file.size < 2097152) {
+                reader.onload = e => callback(e.target.result)
+                reader.readAsDataURL(file)
+            } else {
+                alert('ukuran gambar terlalu besar')
+            }
+
+        },
     };
 
   }

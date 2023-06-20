@@ -233,12 +233,16 @@
               <label for="file-input-image-type" class="mt-2 flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 <span>Ubah gambar</span>
               </label>
+              <div class="mt-2">
+                    <p class="text-xs text-red-500">*gambar wajib ada</p>
+                    <p class="text-xs text-red-500">*max 2 mb</p>
+                </div>
 
             </div>
             <div>
               <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Nama</span>
-                <input name="name" value="{{$type->name}}" class="text-gray-700 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nama Tipe">
+                <input name="name" required value="{{$type->name}}" class="text-gray-700 block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Nama Tipe">
               </label>
             </div>
           </div>
@@ -277,14 +281,19 @@
       },
 
       fileToDataUrl(event, callback) {
-        if (! event.target.files.length) return
+          if (! event.target.files.length) return
 
-        let file = event.target.files[0],
+          let file = event.target.files[0],
             reader = new FileReader()
 
-        reader.readAsDataURL(file)
-        reader.onload = e => callback(e.target.result)
-      },
+            if (file.size < 2097152) {
+                reader.onload = e => callback(e.target.result)
+                reader.readAsDataURL(file)
+            } else {
+                alert('ukuran gambar terlalu besar')
+            }
+
+        },
 
       deleteType(event, callback) {
         event.preventDefault()

@@ -47,6 +47,8 @@
                       name="username"
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                       placeholder="Jane Doe"
+                      value="{{old('username')}}"
+                      required
                     />
                   </label>
                   <label class="block mt-4 text-sm">
@@ -56,6 +58,7 @@
                       class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                       placeholder="***************"
                       type="password"
+                      required
                     />
                   </label>
 

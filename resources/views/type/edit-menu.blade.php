@@ -52,6 +52,10 @@
                 <span>Pilih gambar</span>
               </label>
 
+              <div class="mt-2">
+                <p class="text-xs text-red-500">*max 2 mb</p>
+            </div>
+
             </div>
             <div class="w-full">
               <div>
@@ -156,15 +160,21 @@
         this.fileToDataUrl(event, src => this.imageTypeUrl = src)
       },
 
-      fileToDataUrl(event, callback) {
-        if (! event.target.files.length) return
 
-        let file = event.target.files[0],
+      fileToDataUrl(event, callback) {
+          if (! event.target.files.length) return
+
+          let file = event.target.files[0],
             reader = new FileReader()
 
-        reader.readAsDataURL(file)
-        reader.onload = e => callback(e.target.result)
-      },
+            if (file.size < 2097152) {
+                reader.onload = e => callback(e.target.result)
+                reader.readAsDataURL(file)
+            } else {
+                alert('ukuran gambar terlalu besar')
+            }
+
+        },
     };
 
   }

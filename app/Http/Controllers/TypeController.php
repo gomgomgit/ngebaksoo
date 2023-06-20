@@ -75,11 +75,13 @@ class TypeController extends Controller
         $request->validate([
             'type' => 'required',
             'name' => 'required',
-            'price' => 'required',
-            'image' => 'required|image|max:2048'
+            'price' => 'required|numeric',
+            'image' => 'image|max:2048'
         ]);
 
-        $image = $request->file('image')->store('images/menus','public');
+        if ($request->file('image')) {
+            $image = $request->file('image')->store('images/menus','public');
+        }
 
         Menu::create([
             'type_id' => $request->type,
@@ -87,7 +89,7 @@ class TypeController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'status' => $request->status,
-            'image' => $image
+            'image' => $image ?? null
         ]);
 
         return redirect()->route('type.detail', $request->type);
