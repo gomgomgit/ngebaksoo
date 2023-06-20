@@ -34,9 +34,17 @@ class DashboardController extends Controller
             $month = Carbon::now()->subMonth($i)->isoFormat('MMMM');
             $start = Carbon::now()->startOfMonth()->subMonth($i);
             $end = Carbon::now()->endOfMonth()->subMonth($i);
+
+            $orders = Order::whereBetween('date', [$start, $end])->with('orderDetails')->get();
+
+            $value2 = $orders->sum(function ($q) {
+                return $q->orderDetails->sum('quantity');
+            });
+
             array_push($revenue, (object) [
                 'month' => $month,
-                'value' => Order::whereBetween('date', [$start, $end])->sum('total'),
+                'value' => $orders->sum('total'),
+                'value2' => $value2,
             ]);
         }
 
