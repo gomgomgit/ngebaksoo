@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/history',[OrderController::class, 'history'])->name('history');
 
     Route::get('/admin/customer',[CustomerController::class, 'index'])->name('customer');
+
+    Route::get('/admin/report',[ReportController::class, 'index'])->name('report');
 
     Route::get('/admin/user',[UserController::class, 'index'])->name('user');
     Route::post('/admin/user/store',[UserController::class, 'store'])->name('user.store');

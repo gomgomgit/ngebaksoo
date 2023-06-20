@@ -16,8 +16,10 @@ class DashboardController extends Controller
 
         $count_menu = Menu::count();
         $count_customer = Customer::count();
-        $count_sold = OrderDetail::whereMonth('created_at', $this_month)->sum('quantity');
-        $count_profit = Order::whereMonth('date', $this_month)->sum('total');
+        $count_sold = OrderDetail::whereHas('order', function ($query) {
+            return $query->where('status', 'done');
+        })->whereMonth('created_at', $this_month)->sum('quantity');
+        $count_profit = Order::where('status', 'done')->whereMonth('date', $this_month)->sum('total');
         $count_order = Order::where('status', 'pending')->count();
         $counter = (Object) [
             'menu' => $count_menu,
