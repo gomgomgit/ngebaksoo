@@ -82,6 +82,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/history',[OrderController::class, 'history'])->name('history');
 
     Route::get('/admin/customer',[CustomerController::class, 'index'])->name('customer');
+    Route::post('/admin/customer/change-password',[CustomerController::class, 'changePassword'])->name('customer.changePassword');
 
     Route::get('/admin/report',[ReportController::class, 'index'])->name('report');
 

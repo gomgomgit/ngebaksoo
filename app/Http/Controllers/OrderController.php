@@ -13,10 +13,10 @@ class OrderController extends Controller
         return view('order.index', compact('orders'));
     }
 
-    public function history() {
-        $orders = Order::with(['customer', 'orderDetails.menu'])->where('status', '!=', 'pending')->orderBy('date', 'desc')->paginate(10);
+    public function history(Request $request) {
+        $orders = Order::where('order_code','like', '%' . $request->search . '%')->with(['customer', 'orderDetails.menu'])->where('status', '!=', 'pending')->orderBy('date', 'desc')->paginate(10);
 
-        return view('order.history', compact('orders'));
+        return view('order.history', compact('orders', 'request'));
     }
 
     public function done($id) {

@@ -9,6 +9,17 @@
 @section('content')
 <div x-data="init()">
   {{-- Table --}}
+  <form action="/admin/history">
+    <div class="relative text-gray-500 focus-within:text-purple-600">
+      <input value="{{$request->search}}" name="search" class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Order Code">
+      <button class="absolute flex items-center gap-3 inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+        Cari
+      </button>
+    </div>
+  </form>
   <div class="w-full overflow-hidden rounded-lg shadow-xs mt-4">
       <div class="w-full overflow-x-auto">
       <table class="w-full whitespace-no-wrap">
@@ -16,6 +27,7 @@
           <tr
               class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
+              <th class="px-4 py-3">Code</th>
               <th class="px-4 py-3">Customer</th>
               <th class="px-4 py-3">Date</th>
               <th class="px-4 py-3">Item</th>
@@ -29,6 +41,11 @@
           >
               @foreach ($orders as $order)
                   <tr class="text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3">
+                        <div>
+                            <p class="font-semibold">{{$order->order_code}}</p>
+                        </div>
+                    </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                         <div>
