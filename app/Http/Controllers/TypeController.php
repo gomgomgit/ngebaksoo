@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Menu;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -59,6 +60,12 @@ class TypeController extends Controller
 
     public function delete($id) {
         $type = Type::findOrFail($id);
+
+        $menus = Menu::where('type_id', $id)->get();
+        foreach ($menus as $menu) {
+            Cart::where('menu_id', $menu->id)->delete();
+            $menu->delete();
+        }
 
         $type->delete();
 
@@ -141,6 +148,7 @@ class TypeController extends Controller
     }
 
     public function deleteMenu($id) {
+        Cart::where('menu_id', $id)->delete();
         Menu::findOrFail($id)->delete();
 
         return redirect()->back();

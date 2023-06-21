@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Type;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -56,6 +59,38 @@ class ClientController extends Controller
 
         flash()->addSuccess('Item telah dihapus');
         return redirect()->back();
+    }
+
+    public function account() {
+        $user = Auth::guard('customer')->user();
+
+        return view('client.account', compact('user'));
+    }
+
+    public function accountEdit(Request $request) {
+        $user = Auth::guard('customer')->user();
+        $request->validate([
+            'username' => 'required',
+            'phone_number' => 'required|numeric',
+        ]);
+
+        if (Hash::check($request->password, $user->password)) {
+            $new_password = $request->new_password ? Hash::make($request->new_password) : $user->password;
+
+            $logged = Customer::findOrFail($user->id);
+            $logged->update([
+                'username' => $request->username,
+                'phone_number' => $request->phone_number,
+                'password' => $new_password
+            ]);
+
+            flash()->addSuccess('akun telah diedit');
+            return redirect()->route('client.account');
+        } else {
+            flash()->addError('password salah');
+            return redirect()->back();
+        }
+
     }
 
     public function history() {
