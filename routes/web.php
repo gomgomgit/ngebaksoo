@@ -78,6 +78,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/order',[OrderController::class, 'index'])->name('order');
     Route::post('/admin/order/done/{id}',[OrderController::class, 'done'])->name('order.done');
     Route::post('/admin/order/cancel/{id}',[OrderController::class, 'cancel'])->name('order.cancel');
+    Route::get('/admin/order/invoice/{id}',[OrderController::class, 'invoice'])->name('order.invoice');
 
     Route::get('/admin/history',[OrderController::class, 'history'])->name('history');
 

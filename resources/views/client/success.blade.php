@@ -1,9 +1,14 @@
 @extends('layouts.selection')
 
 @section('head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     <style>
         @media print
         {
+            @page
+            {
+                size: A5;
+            }
             .noprint {display:none}
             .wrapper {
                 padding: 0
@@ -50,6 +55,11 @@
                     </div>
                 </div>
             </div>
+            <div class="mt-3 pb-3 border-b border-gray-700">
+                <div>
+                    Kode Order : {{$order->order_code}}
+                </div>
+            </div>
             @foreach ($order->orderDetails as $detail)
                 <div class="flex justify-between items-center border-b border-b-gray-700 py-3">
                     <div>
@@ -93,6 +103,13 @@
                 class="w-full inline-block rounded-full text-center font-semibold px-5 py-3 text-sm leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
                 >
                     Lihat Riwayat Pesanan
+                </a>
+            </div>
+            <div class="mt-3">
+                <a href="/"
+                class="w-full inline-block rounded-full text-center font-semibold px-5 py-3 text-sm leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+                >
+                    Kembali
                 </a>
             </div>
         </div>

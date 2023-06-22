@@ -35,4 +35,9 @@ class OrderController extends Controller
 
         return redirect()->back();
     }
+
+    public function invoice($id) {
+        $order = Order::with('orderDetails.menu', 'customer')->findOrFail($id);
+        return view('order.invoice', compact('order'));
+    }
 }
