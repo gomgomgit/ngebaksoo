@@ -8,6 +8,9 @@
             .wrapper {
                 padding: 0
             }
+            .info {
+                font-size: 14px
+            }
         }
 
         @media screen
@@ -26,10 +29,13 @@
             <div class="flex items-center justify-center">
                 <img class="w-48" src="{{asset('images/logo-bg.png')}}" alt="">
             </div>
-            <div class="flex justify-between border-b border-gray-700 py-4">
+            <div class="flex justify-between border-b border-gray-700 py-4 text-sm info">
                 <div class="">
                     <div>
                         Nama : {{$order->customer->username}}
+                    </div>
+                    <div>
+                        No Hp : {{$order->customer->phone_number}}
                     </div>
                     <div>
                         Tanggal : {{$order->date}}
