@@ -13,7 +13,7 @@ class Customer extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'username', 'phone_number', 'password'
+        'photo', 'username', 'phone_number', 'password'
     ];
 
     public function orders(): HasMany {

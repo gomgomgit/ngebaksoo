@@ -72,13 +72,21 @@ class ClientController extends Controller
         $request->validate([
             'username' => 'required',
             'phone_number' => 'required|numeric',
+            'password' => 'required',
         ]);
 
         if (Hash::check($request->password, $user->password)) {
             $new_password = $request->new_password ? Hash::make($request->new_password) : $user->password;
 
             $logged = Customer::findOrFail($user->id);
+            if ($request->file('photo')) {
+                $photo = $request->file('photo')->store('images/customer','public');
+            } else {
+                $photo = $logged->photo;
+            }
+
             $logged->update([
+                'photo' => $photo ?? null,
                 'username' => $request->username,
                 'phone_number' => $request->phone_number,
                 'password' => $new_password

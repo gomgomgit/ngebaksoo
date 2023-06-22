@@ -17,8 +17,24 @@
             <h2 class="text-green-600 font-bold text-center"></h2>
         </div>
         <div class="mt-4">
-            <form action="{{route('client.account.edit')}}" method="POST">
+            <form action="{{route('client.account.edit')}}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <div class="flex justify-center">
+                    <label for="file-input-image-type">
+                        <div class="w-48 h-48 rounded-full border-4 border-green-500 overflow-hidden cursor-pointer group relative">
+                            <img class="object-cover h-full w-full" :src="imageTypeUrl" alt="">
+                            <input @change="imageTypeChange" type="file" class="hidden" accept="image/*" name="photo" id="file-input-image-type">
+                            <div class="opacity-0 group-hover:opacity-100 duration-150 inset-0 absolute flex flex-col justify-end">
+                                <div class="bg-green-500 h-1/3 text-white flex justify-center items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                                        <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
+                                        <path fill-rule="evenodd" d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
                 <div>
                     <label class="block text-sm">
                         <span class="text-gray-700 font-semibold">Username :</span>
@@ -53,4 +69,35 @@
             </form>
         </div>
     </div>
+    <script>
+
+        function init() {
+
+          return {
+            imageTypeUrl: "{{$user->photo ? Storage::url($user->photo) : asset('images/user-default.jpg')}}",
+
+            imageTypeChange(event) {
+              this.fileToDataUrl(event, src => this.imageTypeUrl = src)
+            },
+
+
+            fileToDataUrl(event, callback) {
+                if (! event.target.files.length) return
+
+                let file = event.target.files[0],
+                  reader = new FileReader()
+
+                  if (file.size < 2097152) {
+                      reader.onload = e => callback(e.target.result)
+                      reader.readAsDataURL(file)
+                  } else {
+                      alert('ukuran gambar terlalu besar')
+                  }
+
+              },
+          };
+
+        }
+
+      </script>
 @endsection
