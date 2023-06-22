@@ -23,7 +23,7 @@ class ClientController extends Controller
         return view('client.type', compact('types'));
     }
     public function menu($id) {
-        $menus = Menu::where('type_id', $id)->get();
+        $menus = Menu::where('type_id', $id)->orderBy('status', 'desc')->get();
 
         return view('client.menu', compact('menus'));
     }
@@ -112,7 +112,7 @@ class ClientController extends Controller
         ]);
 
         $user = Auth::guard('customer')->user()->id;
-        $carts = Cart::with('menu')->where('customer_id', $user)->get();
+        $carts = Cart::with('menu')->where('customer_id', $user)->get()->where('menu.status', 1);
 
         $date = Carbon::now();
         $code = Order::whereDate('date', $date)->count();

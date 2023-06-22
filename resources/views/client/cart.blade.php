@@ -29,29 +29,39 @@
                                 <div class="text-lg font-semibold">
                                     {{$cart->menu->name}}
                                 </div>
-                                <div class="text-sm">
-                                    notes: {{$cart->notes ?? '-'}}
-                                </div>
+                                @if ($cart->menu->status)
+                                    <div class="text-sm">
+                                        notes: {{$cart->notes ?? '-'}}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="text-sm flex items-center gap-1">
-                                <div>
-                                    Rp {{number_format($cart->menu->price)}}
+                            @if ($cart->menu->status)
+                                <div class="text-sm flex items-center gap-1">
+                                    <div>
+                                        Rp {{number_format($cart->menu->price)}}
+                                    </div>
+                                    <div>
+                                        x{{$cart->quantity}}
+                                    </div>
                                 </div>
-                                <div>
-                                    x{{$cart->quantity}}
+                                <div class="font-semibold text-lg">
+                                    Rp {{number_format($cart->quantity * $cart->menu->price)}}
                                 </div>
-                            </div>
-                            <div class="font-semibold text-lg">
-                                Rp {{number_format($cart->quantity * $cart->menu->price)}}
-                            </div>
+                            @else
+                                <div class="text-red-500 font-semibold">
+                                    Tidak Tersedia
+                                </div>
+                            @endif
                             <div class="flex h-full rounded-xl overflow-hidden">
-                                <div @click="openDetail({{$cart}})" class="cursor-pointer bg-yellow-400 hover:bg-yellow-500 duration-150 p-2 text-white h-full flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                    </svg>
-                                </div>
+                                @if ($cart->menu->status)
+                                    <div @click="openDetail({{$cart}})" class="cursor-pointer bg-yellow-400 hover:bg-yellow-500 duration-150 p-2 text-white h-full flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+                                    </div>
+                                @endif
                                 <div>
                                     <form class="delete-cart" action="" method="POST">
                                         @csrf
@@ -97,11 +107,19 @@
                     <p class="text-red-500">{{ $errors->first() }}</p>
                 @endif
                 <div class="mt-3">
-                    <button
-                    class="w-full font-semibold px-5 py-3 text-sm leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-                    >
-                    Pesan Sekarang
-                    </button>
+                    @if ($carts->where('menu.status', 1)->count())
+                        <button
+                        class="w-full font-semibold px-5 py-3 text-sm leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg sm:px-4 sm:py-2 active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+                        >
+                        Pesan Sekarang
+                        </button>
+                    @else
+                        <div
+                        class="w-full text-center cursor-not-allowed font-semibold px-5 py-3 text-sm leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg sm:px-4 sm:py-2"
+                        >
+                        Pesan Sekarang
+                        </div>
+                    @endif
                 </div>
             </div>
         </form>

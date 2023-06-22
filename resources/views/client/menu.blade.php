@@ -27,7 +27,7 @@ function selectedMenus() {
         <div class="flex justify-center items-center gap-6 mt-8 flex-wrap">
             @foreach ($menus as $menu)
                 <div class="w-1/5 box-border">
-                    <div class="group rounded-xl bg-green-500 p-3">
+                    <div class="group rounded-xl p-3 {{$menu->status ? 'bg-green-500' : 'bg-slate-400'}}">
                         <div class="flex justify-center rounded-xl bg-white overflow-hidden"><img class="w-full h-24 rounded-xl object-cover group-hover:scale-125 transition-all duration-300" src="{{$menu->image ? Storage::url($menu->image) : asset('images/food-default.png')}}" alt=""></div>
                         <div class="text-white text-sm rounded-xl grid grid-cols-2 my-3">
                             <div class="">
@@ -41,13 +41,20 @@ function selectedMenus() {
                         <div class="mt-5">
                             @if (Auth::guard('customer')->user())
                                 <div>
-                                    @if (in_array($menu->id, selectedMenus()))
+                                    @if (in_array($menu->id, selectedMenus()) && $menu->status)
                                         <div class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 transition-colors duration-150 border border-transparent bg-green-700 text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             <p>Ditambahkan</p>
                                         </div>
+                                    @elseif (!$menu->status)
+                                        <span class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 bg-gray-700 transition-colors duration-150 text-white border border-transparent">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <p>Tidak tersedia</p>
+                                        </span>
                                     @else
                                         <button @click="openDetail({{$menu}})" class="flex justify-center items-center gap-2 w-full font-semibold rounded-full px-4 py-2 text-sm leading-5 text-green-700 transition-colors duration-150 bg-white border border-transparent hover:bg-green-700 hover:text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
