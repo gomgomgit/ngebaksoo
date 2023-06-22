@@ -1,14 +1,9 @@
 @extends('layouts.selection')
 
 @section('head')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     <style>
         @media print
         {
-            @page
-            {
-                size: A5;
-            }
             .noprint {display:none}
             .wrapper {
                 padding: 0
