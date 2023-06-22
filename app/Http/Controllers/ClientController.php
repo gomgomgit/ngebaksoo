@@ -143,10 +143,11 @@ class ClientController extends Controller
 
         Cart::where('customer_id', $user)->delete();
 
-        return redirect()->route('client.succeess');
+        return redirect()->route('client.succeess', $order->id);
     }
 
-    public function success() {
-        return view('client.success');
+    public function success($id) {
+        $order = Order::with('orderDetails.menu', 'customer')->findOrFail($id);
+        return view('client.success', compact('order'));
     }
 }

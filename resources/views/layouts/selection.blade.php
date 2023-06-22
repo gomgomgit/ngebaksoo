@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="{{asset('windmill/public/assets/css/tailwind.output.css')}}" />
     @vite('resources/css/app.css')
 
+    @yield('head')
   </head>
   <body class="">
     <div
-      class="min-h-screen box-border bg-green-500 px-96 pt-8 flex flex-col"
+      class="min-h-screen box-border bg-green-500 px-96 pt-8 flex flex-col wrapper"
     >
-        <div class="flex justify-between items-end mb-4">
+        <div class="flex justify-between items-end mb-4 noprint">
             <div class="">
                 <img class="w-64" src="{{asset('images/logo.png')}}" alt="">
             </div>
@@ -121,7 +122,7 @@
         <div class="bg-white rounded-3xl p-8 min-h-3/4 grow" x-data="cartInit()">
             @yield('main')
         </div>
-        <div class="text-xs my-3 text-white flex justify-center ">
+        <div class="text-xs my-3 text-white flex justify-center noprint">
             Alamat : KOMP. TITAN ARUM BLOK C.2NO.5 RT:2/13 DRANGONG, TAKTAKAN, KOTA SERANG, BANTEN
         </div>
     </div>

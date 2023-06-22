@@ -49,7 +49,7 @@ Route::middleware('auth:customer')->group(function () {
     Route::get('/history',[ClientController::class, 'history'])->name('client.history');
     Route::get('/cart',[ClientController::class, 'cart'])->name('client.cart');
     Route::post('/checkout',[ClientController::class, 'checkout'])->name('client.checkout');
-    Route::get('/success',[ClientController::class, 'success'])->name('client.succeess');
+    Route::get('/success/{id}',[ClientController::class, 'success'])->name('client.succeess');
 });
 
 
