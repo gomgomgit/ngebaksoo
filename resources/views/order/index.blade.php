@@ -164,7 +164,7 @@
                         <p class="font-medium"><span x-text="detail.quantity + ' pcs'"></span> x <span x-text="'Rp ' + detail.price"></span></p>
                       </td>
                       <td class="">
-                        <p class="font-medium text-md text-gray-700 dark:text-gray-300"><span x-text="'Rp ' + detail.subtotal"></span></p>
+                        <p class="text-end font-medium text-md text-gray-700 dark:text-gray-300"><span x-text="'Rp ' + detail.subtotal"></span></p>
                       </td>
                     </tr>
                     <tr class="text-gray-700 dark:text-gray-400">
@@ -180,6 +180,18 @@
             </table>
           </div>
 
+          <div class="border-b border-gray-700 mb-2 flex justify-between">
+            <p
+              class="mb-1 text-md font-medium text-gray-700 dark:text-gray-300"
+            >
+              Total :
+            </p>
+            <p
+              class="mb-1 text-md font-medium text-gray-700 dark:text-gray-300"
+            >
+              Rp <span x-text="dataorder.total"></span>
+            </p>
+          </div>
           <div class="">
             <p
               class="mb-1 text-md font-medium text-gray-700 dark:text-gray-300"
