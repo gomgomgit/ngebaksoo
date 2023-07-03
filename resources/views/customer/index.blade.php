@@ -40,7 +40,7 @@
                       >
                           <img
                           class="object-cover w-full h-full rounded-full"
-                          src="{{$customer->photo ? $customer->photo : asset('images/user-default.jpg')}}"
+                          src="{{$customer->photo ? Storage::url($customer->photo) : asset('images/user-default.jpg')}}"
                           alt=""
                           loading="lazy"
                           />
