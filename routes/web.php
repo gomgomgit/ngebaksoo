@@ -47,6 +47,8 @@ Route::middleware('auth:customer')->group(function () {
     Route::post('/account',[ClientController::class, 'accountEdit'])->name('client.account.edit');
 
     Route::get('/history',[ClientController::class, 'history'])->name('client.history');
+    Route::post('/history/cancel/{id}',[ClientController::class, 'cancel'])->name('order.cancel');
+
     Route::get('/cart',[ClientController::class, 'cart'])->name('client.cart');
     Route::post('/checkout',[ClientController::class, 'checkout'])->name('client.checkout');
     Route::get('/success/{id}',[ClientController::class, 'success'])->name('client.succeess');

@@ -108,6 +108,15 @@ class ClientController extends Controller
         return view('client.history', compact('orders'));
     }
 
+    public function cancel($id) {
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status' => 'canceled'
+        ]);
+
+        return redirect()->back();
+    }
+
     public function cart() {
         $user = Auth::guard('customer')->user()->id;
         $carts = Cart::where('customer_id', $user)->get();
