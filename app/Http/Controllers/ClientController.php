@@ -103,7 +103,7 @@ class ClientController extends Controller
 
     public function history() {
         $user = Auth::guard('customer')->user()->id;
-        $orders = Order::with('orderDetails.menu')->where('customer_id', $user)->orderBy('date', 'desc')->paginate(10);
+        $orders = Order::with('orderDetails.menu')->where('customer_id', $user)->orderBy('date', 'desc')->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('client.history', compact('orders'));
     }

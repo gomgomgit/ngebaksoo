@@ -146,6 +146,26 @@
                                 Rp <span x-text="detail.total"></span>
                             </div>
                         </div>
+
+                        <div class="flex justify-end gap-3 mt-4">
+                            <button type="button"
+                                @click="closeDetail()"
+                                class="w-full px-5 py-3 text-sm font-medium leading-5 text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                            >
+                                Close Detail
+                            </button>
+
+                            <template x-if="detail.status == 'pending'">
+                                <form method="POST" :action="'/admin/order/cancel/' + detail?.id">
+                                @csrf
+                                    <button
+                                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+                                    >
+                                        Cancel Order
+                                    </button>
+                                </form>
+                            </template>
+                        </div>
                     </div>
                 </template>
             </div>

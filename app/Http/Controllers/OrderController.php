@@ -30,7 +30,7 @@ class OrderController extends Controller
     public function cancel($id) {
         $order = Order::findOrFail($id);
         $order->update([
-            'status' => 'done'
+            'status' => 'canceled'
         ]);
 
         return redirect()->back();
